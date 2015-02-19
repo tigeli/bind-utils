@@ -1,2 +1,5 @@
+* Thu Feb 19 2015 Pasi Sjöholm <pasi.sjoholm@jollamobile.com> - 9.10.1-P2
+- Update to 9.10.1-P2, fixes CVE-2015-1349. JB#26601
+
 * Thu Jan 07 2015 Pasi Sjöholm <pasi.sjoholm@jollamobile.com> - 9.10.1-1
 - Initial commit (9.10.1-P1)
