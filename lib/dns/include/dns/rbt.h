@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2009, 2012-2014  Internet Systems Consortium, Inc. ("ISC")
+ * Copyright (C) 2004-2009, 2012-2015  Internet Systems Consortium, Inc. ("ISC")
  * Copyright (C) 1999-2002  Internet Software Consortium.
  *
  * Permission to use, copy, modify, and/or distribute this software for any
@@ -125,6 +125,9 @@ struct dns_rbtnode {
 	unsigned int right_is_relative : 1;
 	unsigned int down_is_relative : 1;
 	unsigned int data_is_relative : 1;
+
+	/* node needs to be cleaned from rpz */
+	unsigned int rpz : 1;
 
 #ifdef DNS_RBT_USEHASH
 	unsigned int hashval;

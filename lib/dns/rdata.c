@@ -1169,12 +1169,12 @@ txt_totext(isc_region_t *source, isc_boolean_t quote, isc_buffer_t *target) {
 			continue;
 		}
 		/*
-		 * Escape double quote, semi-colon, backslash.
-		 * If we are not enclosing the string in double
-		 * quotes also escape at sign.
+		 * Escape double quote and backslash.  If we are not
+		 * enclosing the string in double quotes also escape
+		 * at sign and semicolon.
 		 */
-		if (*sp == 0x22 || *sp == 0x3b || *sp == 0x5c ||
-		    (!quote && *sp == 0x40)) {
+		if (*sp == 0x22 || *sp == 0x5c ||
+		    (!quote && (*sp == 0x40 || *sp == 0x3b))) {
 			if (tl < 2)
 				return (ISC_R_NOSPACE);
 			*tp++ = '\\';
@@ -1270,7 +1270,7 @@ txt_fromwire(isc_buffer_t *source, isc_buffer_t *target) {
 
 	isc_buffer_activeregion(source, &sregion);
 	if (sregion.length == 0)
-		return(ISC_R_UNEXPECTEDEND);
+		return (ISC_R_UNEXPECTEDEND);
 	n = *sregion.base + 1;
 	if (n > sregion.length)
 		return (ISC_R_UNEXPECTEDEND);

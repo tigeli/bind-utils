@@ -1,6 +1,6 @@
 #!/usr/local/bin/perl -w
 #
-# Copyright (C) 2004-2010, 2012-2014  Internet Systems Consortium, Inc. ("ISC")
+# Copyright (C) 2004-2010, 2012-2015  Internet Systems Consortium, Inc. ("ISC")
 # Copyright (C) 1998-2001  Internet Software Consortium.
 #
 # Permission to use, copy, modify, and/or distribute this software for any
@@ -14,8 +14,6 @@
 # LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
 # OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 # PERFORMANCE OF THIS SOFTWARE.
-
-# $Id$
 
 require 5.002;
 
@@ -180,6 +178,7 @@ foreach $file (keys %file_types) {
         $shell_comment = 0;
         $m4_comment = 0;
         $sgml_comment = 0;
+        $mkd_comment = 0;
         $zone_comment = 0;
         $man_comment = 0;
         $python_comment = 0;
@@ -213,6 +212,11 @@ foreach $file (keys %file_types) {
                 $start_comment = "<!--\n";
                 $prefix = " - ";
                 $end_comment = "-->\n";
+        } elsif ($type eq "MKD") {
+                $mkd_comment = 1;
+                $start_comment = "<!---\n";
+                $prefix = " - ";
+                $end_comment = "--->";
         } elsif ($type eq "TXT") {
                 $prefix = "";
         } else {
@@ -337,6 +341,29 @@ foreach $file (keys %file_types) {
                         }
                         while (defined($_)) {
                                 last if s/.*-->//;
+                                $_ = <SOURCE>;
+                        }
+                        print "$file: unterminated comment\n"
+                          unless defined($_);
+                        if ($_ ne "\n") {
+                                $first = $_;
+                        } else {
+                                $first = <SOURCE>;
+                        }
+                } else {
+                        $first = $_;
+                }
+        } elsif ($mkd_comment) {
+		$before_copyright = "";
+                if (/^<!/) {
+                        $_ = <SOURCE> if $_ eq "<!---\n";
+                        if ($_ !~ /[Cc]opyright/) {
+                                print "$file: non-copyright comment\n";
+                                close(SOURCE);
+                                next;
+                        }
+                        while (defined($_)) {
+                                last if s/.*--->//;
                                 $_ = <SOURCE>;
                         }
                         print "$file: unterminated comment\n"

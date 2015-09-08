@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2012, 2014  Internet Systems Consortium, Inc. ("ISC")
+ * Copyright (C) 2008-2012, 2014, 2015  Internet Systems Consortium, Inc. ("ISC")
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -65,6 +65,7 @@ static dns_fixedname_t	fixed;
 static dns_name_t	*name = NULL;
 static isc_mem_t	*mctx = NULL;
 static isc_uint32_t	ttl;
+static isc_boolean_t	emitttl = ISC_FALSE;
 
 static isc_result_t
 initname(char *setname) {
@@ -299,7 +300,7 @@ emit(unsigned int dtype, isc_boolean_t showall, char *lookaside,
 	isc_buffer_usedregion(&nameb, &r);
 	printf("%.*s ", (int)r.length, r.base);
 
-	if (ttl != 0U)
+	if (emitttl)
 		printf("%u ", ttl);
 
 	isc_buffer_usedregion(&classb, &r);
@@ -422,6 +423,7 @@ main(int argc, char **argv) {
 			usekeyset = ISC_TRUE;
 			break;
 		case 'T':
+			emitttl = ISC_TRUE;
 			ttl = atol(isc_commandline_argument);
 			break;
 		case 'v':
@@ -496,7 +498,7 @@ main(int argc, char **argv) {
 		      isc_result_totext(result));
 	isc_entropy_stopcallbacksources(ectx);
 
-	setup_logging(verbose, mctx, &log);
+	setup_logging(mctx, &log);
 
 	dns_rdataset_init(&rdataset);
 

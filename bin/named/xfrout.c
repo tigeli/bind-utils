@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2014  Internet Systems Consortium, Inc. ("ISC")
+ * Copyright (C) 2004-2015  Internet Systems Consortium, Inc. ("ISC")
  * Copyright (C) 1999-2003  Internet Software Consortium.
  *
  * Permission to use, copy, modify, and/or distribute this software for any
@@ -1352,7 +1352,6 @@ sendstream(xfrout_ctx_t *xfr) {
 			result = dns_message_gettemprdataset(msg, &qrdataset);
 			if (result != ISC_R_SUCCESS)
 				goto failure;
-			dns_rdataset_init(qrdataset);
 			dns_rdataset_makequestion(qrdataset,
 					xfr->client->message->rdclass,
 					xfr->qtype);
@@ -1469,7 +1468,6 @@ sendstream(xfrout_ctx_t *xfr) {
 		result = dns_message_gettemprdataset(msg, &msgrds);
 		if (result != ISC_R_SUCCESS)
 			goto failure;
-		dns_rdataset_init(msgrds);
 		result = dns_rdatalist_tordataset(msgrdl, msgrds);
 		INSIST(result == ISC_R_SUCCESS);
 
