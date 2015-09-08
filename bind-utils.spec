@@ -1,7 +1,7 @@
 Summary: DNS (Domain Name System) server
 Name: bind-utils
-Version: 9.10.1
-Release: P2
+Version: 9.10.2
+Release: P4
 License: BSD-like
 Group: System Environment/Daemons
 URL: http://www.isc.org/products/BIND/
