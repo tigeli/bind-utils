@@ -1,3 +1,6 @@
+* Tue Sep 08 2015 Pasi Sj√holm <pasi.sjoholm@jollamobile.com> - 9.10.2-P4
+- Fix CVE-2015-5986, CVE-2015-5722, CVE-2015-5477, CVE-2015-4620. MER#1292
+
 * Thu Feb 19 2015 Pasi Sj√∂holm <pasi.sjoholm@jollamobile.com> - 9.10.1-P2
 - Update to 9.10.1-P2, fixes CVE-2015-1349
 
